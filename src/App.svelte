@@ -1,5 +1,4 @@
 <script>
-  import { loop_guard } from "svelte/internal";
   import Nav from "./components/nav.svelte";
 
   let menuItems = [
