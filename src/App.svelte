@@ -9,6 +9,7 @@
   //const apiKey = "VEQB36CS6FYOPPUO";
   const apiKey = "2PD6SXM6VTYLAZ5D";
   let ticker = "";
+  let promise;
 
   async function getStockData() {
     let response = await fetch(
@@ -21,10 +22,8 @@
     return stockData;
   }
 
-  let promise = getStockData;
-
   function handleClick() {
-    promise = getStockData();
+    promise = getStockData;
   }
 </script>
 
@@ -42,20 +41,13 @@
   <p>Loading...</p>
 {:then stockData}
   {#each Object.keys(stockData) as key}
-    <button on:click={() => alert(key)} class="border-2 p-2 m-2">{key}</button>
+    <button class="border-2 p-2 m-2">{key}</button>
   {/each}
-{:catch error}
-  <p style="color: red">{error.message}</p>
-{/await}
-
-<div class="w-1/3 m-auto">
-  <table class="table p-4 bg-white rounded-lg shadow">
-    {#await promise}
-      <p>Loading...</p>
-    {:then stockData}
+  <div class="w-1/3 m-auto">
+    <table class="table p-4 bg-white rounded-lg shadow">
       <tbody>
         {#each Object.entries(stockData) as row}
-          <tr class="text-gray-700 odd:bg-white even:bg-slate-50">
+          <tr class="text-gray-700 odd:bg-white even:bg-slate-50 {row[0]}">
             {#each row as cell}
               <td class="border-b-2 p-4 dark:border-dark-5 first:font-bold"
                 >{cell}</td
@@ -64,8 +56,8 @@
           </tr>
         {/each}
       </tbody>
-    {:catch error}
-      <p style="color: red">{error.message}</p>
-    {/await}
-  </table>
-</div>
+    </table>
+  </div>
+{:catch error}
+  <p style="color: red">{error.message}</p>
+{/await}
